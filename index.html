@@ -5,11 +5,15 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Cyneris</title>
   <style>
-    html,body{height:100%;margin:0;background:#000;}
-    img{width:100%;height:100%;object-fit:cover;display:block;}
+    html,body{height:100%;margin:0;background:#111;color:#fff;font-family:Arial,sans-serif;}
+    .wrap{display:flex;align-items:center;justify-content:center;height:100%;flex-direction:column;gap:12px}
+    img{max-width:90vw;max-height:80vh;object-fit:contain;display:block}
   </style>
 </head>
 <body>
-  <img src="cyneris.jpg" alt="Cyneris">
+  <div class="wrap">
+    <div>Test image Cyneris</div>
+    <img src="cyneris.jpg" alt="Cyneris" onerror="this.insertAdjacentHTML('afterend','<p>Erreur chargement image : cyneris.jpg introuvable</p>')">
+  </div>
 </body>
 </html>
