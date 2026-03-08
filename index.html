@@ -1,0 +1,612 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>CYNERIS — Reveal</title>
+<meta name="description" content="CYNERIS — Coming soon." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --ink:#eaf2ff;
+    --muted:rgba(234,242,255,.65);
+    --cyan:#14b8d6;
+    --cyanGlow:rgba(20,184,214,.5);
+
+    /* iOS safe-area */
+    --safeTop: env(safe-area-inset-top, 0px);
+    --safeRight: env(safe-area-inset-right, 0px);
+    --safeBottom: env(safe-area-inset-bottom, 0px);
+    --safeLeft: env(safe-area-inset-left, 0px);
+  }
+
+  *{box-sizing:border-box}
+  html,body{
+    margin:0;
+    font-family:'Orbitron',system-ui,sans-serif;
+    overflow:hidden;
+    background:#020810;
+    color:var(--ink);
+  }
+
+  /* Better mobile viewport handling (address bar) */
+  body{
+    min-height:100vh;
+    min-height:100dvh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  #hyperspace{position:fixed;inset:0;width:100%;height:100%;z-index:0;}
+
+  .vignette{
+    position:fixed;inset:0;z-index:1;pointer-events:none;
+    background:radial-gradient(ellipse at center, transparent 35%, rgba(2,8,16,.82) 100%);
+  }
+
+  /* ── Liquid Glass Container ── */
+  .glass{
+    position:relative;
+    z-index:2;
+
+    /* ✅ Responsive circle: always fits viewport (vmin = min(vw,vh)) */
+    --glassSize: min(780px, 92vmin);
+
+    width:var(--glassSize);
+    height:var(--glassSize);
+    max-width:780px;
+    max-height:780px;
+
+    border-radius:50%;
+    background:rgba(255,255,255,.008);
+    border:1px solid rgba(255,255,255,.04);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.03),
+      inset 0 -1px 0 rgba(0,0,0,.03);
+    backdrop-filter:blur(4px) saturate(1.1);
+    -webkit-backdrop-filter:blur(4px) saturate(1.1);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    animation:glassIn 1.8s cubic-bezier(.22,1,.36,1) both;
+  }
+  @keyframes glassIn{
+    0%{opacity:0;transform:scale(.9);}
+    100%{opacity:1;transform:none;}
+  }
+
+  /* ── Center Hub ── */
+  .hub{
+    text-align:center;
+    position:relative;
+    z-index:3;
+    padding: 0 14px;
+  }
+
+  /* ✅ Sizes with clamp() => smoother responsiveness */
+  .logoOrb{
+    width:clamp(72px, 18vmin, 160px);
+    height:clamp(72px, 18vmin, 160px);
+    margin:0 auto 14px;
+    border-radius:50%;
+    background:rgba(255,255,255,.95);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:
+      0 20px 60px rgba(0,0,0,.35),
+      0 0 50px rgba(20,184,214,.12);
+    border:2px solid rgba(255,255,255,.3);
+    overflow:hidden;
+    animation:orbPulse 5s ease-in-out infinite alternate;
+  }
+  @keyframes orbPulse{
+    0%{box-shadow:0 20px 60px rgba(0,0,0,.35),0 0 50px rgba(20,184,214,.12);}
+    100%{box-shadow:0 20px 60px rgba(0,0,0,.35),0 0 80px rgba(20,184,214,.25);}
+  }
+  .logoOrb img{
+    width:clamp(52px, 13.5vmin, 120px);
+    height:clamp(52px, 13.5vmin, 120px);
+    object-fit:contain;
+  }
+
+  .name{
+    font-size:clamp(14px, 3.2vmin, 28px);
+    font-weight:900;
+    letter-spacing:clamp(.12em, .18em, .2em);
+    margin:0 0 4px;
+    text-shadow:0 0 30px rgba(20,184,214,.3);
+  }
+  .tagTitle{
+    font-size:clamp(6px, 1.4vmin, 9px);
+    letter-spacing:clamp(.16em, .22em, .25em);
+    text-transform:uppercase;
+    color:var(--muted);
+    margin:0;
+  }
+
+  /* ── Orbital Offers ── */
+  .offer{
+    position:absolute;
+    transform:translate(-50%,-50%);
+    padding:10px 20px;
+    border-radius:30px;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.1);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    text-align:center;
+    white-space:nowrap;
+    cursor:default;
+    transition:all .35s cubic-bezier(.22,1,.36,1);
+    animation:offerIn .75s cubic-bezier(.22,1,.36,1) both;
+  }
+  .offer:hover{
+    background:rgba(20,184,214,.08);
+    border-color:rgba(20,184,214,.35);
+    transform:translate(-50%,-50%) scale(1.07);
+    box-shadow:0 0 30px rgba(20,184,214,.15);
+  }
+  @keyframes offerIn{
+    0%{opacity:0;transform:translate(-50%,-50%) scale(.7);}
+    100%{opacity:1;transform:translate(-50%,-50%) scale(1);}
+  }
+  .offer-num{
+    font-size:clamp(6px, 1.2vmin, 7px);
+    letter-spacing:.18em;
+    color:var(--cyan);
+    margin-bottom:2px;
+  }
+  .offer-name{
+    font-size:clamp(8px, 1.8vmin, 11px);
+    font-weight:700;
+    letter-spacing:.06em;
+    color:var(--ink);
+    line-height:1.15;
+  }
+
+  /* ── Orbit ring (decorative) ── */
+  .orbit-ring{
+    position:absolute;
+    top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+    border:1px solid rgba(20,184,214,.06);
+    pointer-events:none;
+    animation:ringRotate 120s linear infinite;
+  }
+  @keyframes ringRotate{
+    0%{transform:translate(-50%,-50%) rotate(0deg);}
+    100%{transform:translate(-50%,-50%) rotate(360deg);}
+  }
+
+  /* ── Countdown ── */
+  .countdown-wrap{
+    position:fixed;
+    top:calc(16px + var(--safeTop));
+    left:50%;
+    transform:translateX(-50%);
+    z-index:10;
+
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;                /* ✅ wraps on small screens */
+    justify-content:center;
+    max-width:min(540px, 96vw);
+    padding:0 10px;
+
+    animation:fadeUp 1.6s .35s cubic-bezier(.22,1,.36,1) both;
+  }
+  @keyframes fadeUp{
+    0%{opacity:0;transform:translateX(-50%) translateY(-14px);}
+    100%{opacity:1;transform:translateX(-50%) translateY(0);}
+  }
+  .cd-unit{
+    text-align:center;
+    padding:10px 14px 9px;
+    border-radius:16px;
+    background:rgba(255,255,255,.03);
+    border:1px solid rgba(255,255,255,.08);
+    backdrop-filter:blur(30px);
+    -webkit-backdrop-filter:blur(30px);
+    min-width:72px;
+    flex:1 0 88px;                /* ✅ 2x2 wrap possible */
+    max-width:130px;
+  }
+  .cd-num{
+    font-size:clamp(18px, 3.4vmin, 28px);
+    font-weight:900;
+    font-variant-numeric:tabular-nums;
+    text-shadow:0 0 15px rgba(20,184,214,.25);
+  }
+  .cd-lab{
+    font-size:clamp(7px, 1.4vmin, 8px);
+    letter-spacing:.18em;color:var(--muted);
+    text-transform:uppercase;margin-top:2px;
+  }
+
+  /* ── Speed Controls ── */
+  .controls{
+    position:fixed;
+    bottom:calc(16px + var(--safeBottom));
+    left:50%;
+    transform:translateX(-50%);
+    z-index:10;
+
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;               /* ✅ wraps on small screens */
+    justify-content:center;
+    max-width:min(520px, 96vw);
+    padding:0 10px;
+
+    opacity:.5;
+    transition:opacity .25s;
+  }
+  .controls:hover{opacity:1;}
+  .ctrl-btn{
+    font-family:'Orbitron',monospace;
+    font-size:clamp(9px, 1.6vmin, 11px);
+    letter-spacing:.12em;
+    padding:10px 20px;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:24px;
+    background:rgba(255,255,255,.03);
+    color:var(--muted);
+    cursor:pointer;
+    backdrop-filter:blur(10px);
+    transition:all .25s;
+  }
+  .ctrl-btn:hover,.ctrl-btn.active{
+    background:rgba(20,184,214,.1);
+    border-color:rgba(20,184,214,.3);
+    color:#fff;
+    text-shadow:0 0 10px var(--cyanGlow);
+  }
+
+  .warp-hud{
+    position:fixed;
+    top:calc(12px + var(--safeTop));
+    right:calc(14px + var(--safeRight));
+    z-index:10;
+    font-family:'Orbitron',monospace;
+    font-size:8px;
+    letter-spacing:.12em;
+    color:rgba(20,184,214,.6);
+    text-align:right;
+    user-select:none;
+  }
+  .warp-bar{
+    width:84px;height:2px;background:rgba(20,184,214,.1);
+    border-radius:2px;margin-top:4px;overflow:hidden;
+  }
+  .warp-fill{
+    height:100%;width:5%;
+    background:linear-gradient(90deg,var(--cyan),#4fc3f7);
+    border-radius:2px;transition:width .6s ease;
+    box-shadow:0 0 6px var(--cyanGlow);
+  }
+
+  /* ✅ Extra small: allow offers to wrap */
+  @media (max-width: 520px){
+    .offer{
+      padding:6px 10px;
+      max-width: min(140px, 38vw);
+      white-space:normal; /* ✅ wrap long labels */
+    }
+  }
+
+  /* ✅ Very small heights (landscape phones) */
+  @media (max-height: 520px){
+    .glass{ --glassSize: min(780px, 78vmin); }
+    .countdown-wrap{ top: calc(10px + var(--safeTop)); gap:6px; }
+    .controls{ bottom: calc(10px + var(--safeBottom)); }
+    .warp-hud{ top: calc(8px + var(--safeTop)); }
+  }
+
+  /* ✅ Hide warp HUD on tiny screens to avoid overlap */
+  @media (max-width: 360px){
+    .warp-hud{ display:none; }
+  }
+
+  /* ✅ Accessibility: reduced motion */
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; transition:none !important; }
+  }
+</style>
+</head>
+
+<body>
+<canvas id="hyperspace"></canvas>
+<div class="vignette"></div>
+
+<div class="glass" id="glassOrbit">
+  <!-- Decorative orbit rings -->
+  <div class="orbit-ring" style="width:70%;height:70%;"></div>
+  <div class="orbit-ring" style="width:92%;height:92%;animation-direction:reverse;animation-duration:180s;border-color:rgba(20,184,214,.03);"></div>
+
+  <!-- Center -->
+  <div class="hub">
+    <div class="logoOrb">
+      <!-- ✅ Garde ton base64 EXACT ici (je ne le recopie pas pour éviter un bloc énorme) -->
+    <img src="cyneris.jpg" alt="Cyneris">
+    </div>
+    <p class="name">CYNERIS</p>
+    <p class="tagTitle">Cybersecurity Intelligence</p>
+  </div>
+
+  <!-- 5 Orbital Offers -->
+  <div class="offer" id="o0"><div class="offer-num">01 — SOFTWARE</div><div class="offer-name">Integrated Software</div></div>
+  <div class="offer" id="o1"><div class="offer-num">02 — CLOUD</div><div class="offer-name">Cloud IaaS / PaaS / SaaS</div></div>
+  <div class="offer" id="o2"><div class="offer-num">03 — SECURITY</div><div class="offer-name">Cybersecurity</div></div>
+  <div class="offer" id="o3"><div class="offer-num">04 — LEGACY</div><div class="offer-name">Technical Debt</div></div>
+  <div class="offer" id="o4"><div class="offer-num">05 — INTELLIGENCE</div><div class="offer-name">Data Science</div></div>
+</div>
+
+<!-- Countdown -->
+<div class="countdown-wrap" aria-label="Compte à rebours">
+  <div class="cd-unit"><div class="cd-num" id="d">—</div><div class="cd-lab">Jours</div></div>
+  <div class="cd-unit"><div class="cd-num" id="h">—</div><div class="cd-lab">Heures</div></div>
+  <div class="cd-unit"><div class="cd-num" id="m">—</div><div class="cd-lab">Minutes</div></div>
+  <div class="cd-unit"><div class="cd-num" id="s">—</div><div class="cd-lab">Secondes</div></div>
+</div>
+
+<div class="controls" aria-label="Vitesse hyperspace">
+  <button class="ctrl-btn active" data-mode="cruise" type="button">CRUISE</button>
+  <button class="ctrl-btn" data-mode="jump" type="button">JUMP</button>
+  <button class="ctrl-btn" data-mode="hyper" type="button">HYPERSPACE</button>
+</div>
+
+<div class="warp-hud" aria-hidden="true">
+  <span id="warpLabel">WARP 1.0</span>
+  <div class="warp-bar"><div class="warp-fill" id="warpFill"></div></div>
+</div>
+
+<script>
+  // ==============================
+  // ORBITAL OFFER POSITIONING (responsive)
+  // ==============================
+  function clamp(n, a, b){ return Math.max(a, Math.min(b, n)); }
+
+  let resizeRAF = null;
+  function onResizeThrottled(fn){
+    if (resizeRAF) cancelAnimationFrame(resizeRAF);
+    resizeRAF = requestAnimationFrame(fn);
+  }
+
+  function positionOffers() {
+    const glass = document.getElementById('glassOrbit');
+    if (!glass) return;
+
+    const W = glass.offsetWidth;
+    const H = glass.offsetHeight;
+    const cx = W / 2;
+    const cy = H / 2;
+
+    const minDim = Math.min(W, H);
+    const isSmall = minDim <= 420;
+    const isTiny  = minDim <= 340;
+    const isShort = window.innerHeight <= 520;
+
+    /* ✅ Dynamic radius:
+       - smaller on tiny/short viewports to avoid collisions
+       - slightly elliptical on portrait phones
+    */
+    const portrait = window.matchMedia && window.matchMedia("(orientation: portrait)").matches;
+    const base = isTiny ? 0.34 : (isSmall ? 0.36 : 0.40);
+    const factor = clamp(base - (isShort ? 0.03 : 0), 0.30, 0.42);
+
+    const rx = W * factor;
+    const ry = H * (portrait ? factor * 0.96 : factor);
+
+    // 5 offers distributed evenly around circle, starting from top
+    // tweak angles slightly on small screens to keep away from top countdown
+    const offsets = isSmall ? [-96, -22, 52, 126, 200] : [-90, -18, 54, 126, 198];
+    const ids = ['o0','o1','o2','o3','o4'];
+
+    ids.forEach((id, i) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const angle = offsets[i] * (Math.PI / 180);
+      const x = cx + rx * Math.cos(angle);
+      const y = cy + ry * Math.sin(angle);
+      el.style.left = x + 'px';
+      el.style.top  = y + 'px';
+      el.style.animationDelay = (0.25 + i * 0.12) + 's';
+    });
+  }
+
+  // call once after layout
+  positionOffers();
+  window.addEventListener('resize', () => onResizeThrottled(() => {
+    resizeCanvas();
+    positionOffers();
+  }));
+
+  // ==============================
+  // COUNTDOWN (10 DAYS)
+  // ==============================
+  const REVEAL_DAYS = 10;
+  const KEY = "cyneris_reveal_v5";
+  const now = Date.now();
+  let target = Number(localStorage.getItem(KEY));
+
+  if (!target || target < now) {
+    target = now + REVEAL_DAYS * 24 * 60 * 60 * 1000 + 1000;
+    try { localStorage.setItem(KEY, String(target)); } catch(e){}
+  }
+
+  const elD = document.getElementById("d");
+  const elH = document.getElementById("h");
+  const elM = document.getElementById("m");
+  const elS = document.getElementById("s");
+  const pad2 = (n) => String(n).padStart(2, "0");
+
+  function tick() {
+    const t = target - Date.now();
+    if (t <= 0) { elD.textContent="0"; elH.textContent="00"; elM.textContent="00"; elS.textContent="00"; return; }
+    const total = Math.floor(t / 1000);
+    elD.textContent = String(Math.floor(total / 86400));
+    elH.textContent = pad2(Math.floor((total % 86400) / 3600));
+    elM.textContent = pad2(Math.floor((total % 3600) / 60));
+    elS.textContent = pad2(total % 60);
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  // ==============================
+  // HYPERSPACE STARFIELD (responsive + DPR)
+  // ==============================
+  const canvas = document.getElementById("hyperspace");
+  const ctx = canvas.getContext("2d", { alpha: true });
+  let cW = 0, cH = 0, DPR = 1;
+
+  function resizeCanvas() {
+    cW = window.innerWidth;
+    cH = window.innerHeight;
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
+
+    canvas.style.width = cW + "px";
+    canvas.style.height = cH + "px";
+    canvas.width = Math.floor(cW * DPR);
+    canvas.height = Math.floor(cH * DPR);
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+
+    // reduce star count on small screens for perf
+    buildStars();
+  }
+
+  const MODES = {
+    cruise:  { speed: 2,  streak: 0,   tunnel: false },
+    jump:    { speed: 14, streak: 0.6, tunnel: false },
+    hyper:   { speed: 50, streak: 1,   tunnel: true  }
+  };
+
+  let currentMode = MODES.cruise;
+  let lerpSpeed = 2, lerpStreak = 0, lerpTunnel = 0;
+
+  const DEPTH = 1500;
+  let STAR_COUNT = 1600;
+  const stars = [];
+
+  function spawnStar(s) {
+    s = s || {};
+    s.x = (Math.random() - 0.5) * cW * 3;
+    s.y = (Math.random() - 0.5) * cH * 3;
+    s.z = Math.random() * DEPTH;
+    s.pz = s.z;
+    s.size = 0.4 + Math.random() * 1.2;
+    return s;
+  }
+
+  function buildStars(){
+    const minDim = Math.min(cW, cH);
+    STAR_COUNT = minDim < 420 ? 900 : (minDim < 700 ? 1200 : 1600);
+
+    stars.length = 0;
+    for (let i = 0; i < STAR_COUNT; i++) stars.push(spawnStar({}));
+  }
+
+  const rings = [];
+  for (let i = 0; i < 20; i++) rings.push({ z: (i / 20) * DEPTH, opacity: 0 });
+
+  const warpLabel = document.getElementById("warpLabel");
+  const warpFill = document.getElementById("warpFill");
+
+  document.querySelectorAll(".ctrl-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".ctrl-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      currentMode = MODES[btn.dataset.mode];
+    });
+  });
+
+  resizeCanvas();
+
+  const prefersReduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (prefersReduced) {
+    currentMode = MODES.cruise;
+    lerpSpeed = 2;
+    lerpStreak = 0;
+    lerpTunnel = 0;
+  }
+
+  function frame() {
+    lerpSpeed  += (currentMode.speed  - lerpSpeed)  * 0.035;
+    lerpStreak += (currentMode.streak - lerpStreak) * 0.04;
+    lerpTunnel += ((currentMode.tunnel ? 1 : 0) - lerpTunnel) * 0.03;
+
+    const wf = (lerpSpeed / 50 * 9 + 1).toFixed(1);
+    if (warpLabel) warpLabel.textContent = `WARP ${wf}`;
+    if (warpFill) warpFill.style.width = `${(lerpSpeed / 50) * 100}%`;
+
+    ctx.fillStyle = "rgba(2,8,16,.28)";
+    ctx.fillRect(0, 0, cW, cH);
+
+    const ccx = cW / 2, ccy = cH / 2;
+
+    if (lerpTunnel > 0.01 && !prefersReduced) {
+      for (const ring of rings) {
+        ring.z -= lerpSpeed * 0.6;
+        if (ring.z < 1) ring.z += DEPTH;
+        const scale = DEPTH / ring.z;
+        const r = Math.max(cW, cH) * 0.6 * scale;
+        if (r > 4000) continue;
+        const a = lerpTunnel * (1 - ring.z / DEPTH) * 0.12;
+        ctx.beginPath();
+        ctx.arc(ccx, ccy, r, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(20,184,214,${a})`;
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+      }
+    }
+
+    for (const s of stars) {
+      s.pz = s.z;
+      s.z -= lerpSpeed;
+      if (s.z < 1) spawnStar(s);
+
+      const sx = (s.x / s.z) * (cW * 0.3) + ccx;
+      const sy = (s.y / s.z) * (cH * 0.3) + ccy;
+      if (sx < -50 || sx > cW + 50 || sy < -50 || sy > cH + 50) { spawnStar(s); continue; }
+
+      const depth = 1 - s.z / DEPTH;
+      const r = s.size * (1 + depth * 2.5);
+      const hue = 195 + depth * 15;
+      const light = 75 + depth * 25;
+      const alpha = 0.3 + depth * 0.7;
+
+      if (lerpStreak > 0.05 && !prefersReduced) {
+        const px = (s.x / s.pz) * (cW * 0.3) + ccx;
+        const py = (s.y / s.pz) * (cH * 0.3) + ccy;
+        const dx = sx - px, dy = sy - py;
+        const streakLen = Math.hypot(dx, dy) * lerpStreak;
+        const angle = Math.atan2(dy, dx);
+        const tailX = sx - Math.cos(angle) * streakLen;
+        const tailY = sy - Math.sin(angle) * streakLen;
+        const grad = ctx.createLinearGradient(tailX, tailY, sx, sy);
+        grad.addColorStop(0, `hsla(${hue},80%,${light}%,0)`);
+        grad.addColorStop(1, `hsla(${hue},80%,${light}%,${alpha})`);
+        ctx.beginPath(); ctx.moveTo(tailX, tailY); ctx.lineTo(sx, sy);
+        ctx.strokeStyle = grad; ctx.lineWidth = r * 0.9; ctx.stroke();
+        ctx.beginPath(); ctx.arc(sx, sy, r * 0.8, 0, Math.PI * 2);
+        ctx.fillStyle = `hsla(${hue},60%,95%,${alpha * 0.9})`; ctx.fill();
+      } else {
+        ctx.beginPath(); ctx.arc(sx, sy, r, 0, Math.PI * 2);
+        ctx.fillStyle = `hsla(${hue},70%,${light}%,${alpha})`; ctx.fill();
+        if (depth > 0.5) {
+          ctx.beginPath(); ctx.arc(sx, sy, r * 2.5, 0, Math.PI * 2);
+          ctx.fillStyle = `hsla(${hue},80%,${light}%,${(depth - 0.5) * 0.15})`; ctx.fill();
+        }
+      }
+    }
+
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+</script>
+</body>
+</html>
