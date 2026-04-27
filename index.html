@@ -1,0 +1,480 @@
+!doctype html
+html lang=fr
+head
+meta charset=utf-8
+meta name=viewport content=width=device-width,initial-scale=1
+titleCYNERIStitle
+meta name=description content=CYNERIS — Coming soon. 
+
+!-- Security meta-level controls (alignées avec _headers serveur — l'intersection est appliquée) --
+meta http-equiv=Content-Security-Policy content=default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' httpsfonts.googleapis.com; font-src httpsfonts.gstatic.com; img-src 'self' data; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; form-action 'none'; upgrade-insecure-requests
+meta name=referrer content=strict-origin-when-cross-origin
+meta name=color-scheme content=dark
+meta name=robots content=index,follow
+
+link rel=preconnect href=httpsfonts.googleapis.com
+link rel=preconnect href=httpsfonts.gstatic.com crossorigin
+link href=httpsfonts.googleapis.comcss2family=Orbitronwght@400;700;900&display=swap rel=stylesheet
+
+style
+  root{
+    --ink#eaf2ff;
+    --mutedrgba(234,242,255,.65);
+    --cyan#14b8d6;
+    --cyanGlowrgba(20,184,214,.5);
+  }
+  {box-sizingborder-box}
+  html,body{height100%;margin0;font-family'Orbitron',system-ui,sans-serif;overflowhidden;}
+  body{
+    colorvar(--ink);
+    background#020810;
+    displayflex;
+    align-itemscenter;
+    justify-contentcenter;
+  }
+
+  #hyperspace{positionfixed;inset0;width100%;height100%;z-index0;}
+
+  .vignette{
+    positionfixed;inset0;z-index1;pointer-eventsnone;
+    backgroundradial-gradient(ellipse at center, transparent 35%, rgba(2,8,16,.8) 100%);
+  }
+
+   ── Liquid Glass Container ── 
+  .glass{
+    positionrelative;
+    z-index2;
+    widthmin(780px,94vw,72vh);
+    heightmin(780px,94vw,72vh);
+    max-width780px;max-height780px;
+    border-radius50%;
+     Liquid glass near-invisible, stars pass through 
+    backgroundrgba(255,255,255,.008);
+    border1px solid rgba(255,255,255,.04);
+    box-shadow
+      inset 0 1px 0 rgba(255,255,255,.03),
+      inset 0 -1px 0 rgba(0,0,0,.03);
+    backdrop-filterblur(4px) saturate(1.1);
+    -webkit-backdrop-filterblur(4px) saturate(1.1);
+    displayflex;
+    align-itemscenter;
+    justify-contentcenter;
+    animationglassIn 2s cubic-bezier(.22,1,.36,1) both;
+  }
+  @keyframes glassIn{
+    0%{opacity0;transformscale(.88);}
+    100%{opacity1;transformnone;}
+  }
+
+   ── Center Hub ── 
+  .hub{
+    text-aligncenter;
+    positionrelative;
+    z-index3;
+  }
+
+  .logoOrb{
+    width160px;height160px;
+    margin0 auto 14px;
+    border-radius50%;
+    background#ffffff;
+    displayflex;align-itemscenter;justify-contentcenter;
+    box-shadow
+      0 20px 60px rgba(0,0,0,.35),
+      0 0 50px rgba(20,184,214,.12);
+    border2px solid rgba(255,255,255,.3);
+    overflowhidden;
+    animationorbPulse 5s ease-in-out infinite alternate;
+  }
+  @keyframes orbPulse{
+    0%{box-shadow0 20px 60px rgba(0,0,0,.35),0 0 50px rgba(20,184,214,.12);}
+    100%{box-shadow0 20px 60px rgba(0,0,0,.35),0 0 80px rgba(20,184,214,.25);}
+  }
+  .logoOrb img{width120px;height120px;object-fitcontain;}
+
+  .name{
+    font-size28px;font-weight900;letter-spacing.2em;
+    margin0 0 4px;
+    color#ffffff;
+    text-shadownone;
+  }
+  .tagTitle{
+    font-size12px;letter-spacing.22em;text-transformuppercase;
+    colorvar(--muted);margin0;white-spacenowrap;
+  }
+
+   ── Orbital Offers ── 
+  .offer{
+    positionabsolute;
+    transformtranslate(-50%,-50%);
+    padding14px 26px;
+    border-radius34px;
+     Pure white glass 
+    backgroundrgba(255,255,255,.06);
+    border1px solid rgba(255,255,255,.2);
+    backdrop-filterblur(12px);
+    -webkit-backdrop-filterblur(12px);
+    text-aligncenter;
+    white-spacenowrap;
+    cursordefault;
+    color#ffffff;
+    transitionall .4s cubic-bezier(.22,1,.36,1);
+    animationofferIn .8s cubic-bezier(.22,1,.36,1) both;
+  }
+  .offerhover{
+    backgroundrgba(212,175,75,.18);
+    border-colorrgba(212,175,75,.7);
+    transformtranslate(-50%,-50%) scale(1.1);
+    box-shadow0 0 50px rgba(212,175,75,.4), 0 0 25px rgba(185,145,45,.22);
+  }
+  @keyframes offerIn{
+    0%{opacity0;transformtranslate(-50%,-50%) scale(.6);}
+    100%{opacity1;transformtranslate(-50%,-50%) scale(1);}
+  }
+   Async blink — base = bright white, each offer peaks in a CYNERIS blue tone 
+   01 SOFTWARE — Bleu profond  sapphire 
+  @keyframes glow0{
+    0%,100%{box-shadow0 0 8px rgba(255,255,255,.06);border-colorrgba(255,255,255,.2);backgroundrgba(255,255,255,.06);opacity1;color#ffffff;}
+    50%{box-shadow0 0 40px rgba(59,130,246,.5), 0 0 20px rgba(29,78,216,.3);border-colorrgba(59,130,246,.75);backgroundrgba(59,130,246,.16);opacity1;color#3b82f6;}
+  }
+   02 CLOUD — Bleu cobalt 
+  @keyframes glow1{
+    0%,100%{box-shadow0 0 6px rgba(255,255,255,.05);border-colorrgba(255,255,255,.2);backgroundrgba(255,255,255,.06);opacity1;color#ffffff;}
+    55%{box-shadow0 0 38px rgba(96,165,250,.5), 0 0 18px rgba(37,99,235,.3);border-colorrgba(96,165,250,.72);backgroundrgba(96,165,250,.15);opacity1;color#60a5fa;}
+  }
+   03 SECURITY — Bleu ciel 
+  @keyframes glow2{
+    0%,100%{box-shadow0 0 10px rgba(255,255,255,.07);border-colorrgba(255,255,255,.2);backgroundrgba(255,255,255,.06);opacity1;color#ffffff;}
+    48%{box-shadow0 0 42px rgba(56,189,248,.5), 0 0 22px rgba(14,165,233,.3);border-colorrgba(56,189,248,.75);backgroundrgba(56,189,248,.16);opacity1;color#38bdf8;}
+  }
+   04 LEGACY — Cyan signature CYNERIS 
+  @keyframes glow3{
+    0%,100%{box-shadow0 0 7px rgba(255,255,255,.06);border-colorrgba(255,255,255,.2);backgroundrgba(255,255,255,.06);opacity1;color#ffffff;}
+    52%{box-shadow0 0 38px rgba(20,184,214,.5), 0 0 18px rgba(20,184,214,.28);border-colorrgba(20,184,214,.72);backgroundrgba(20,184,214,.15);opacity1;color#14b8d6;}
+  }
+   05 INTELLIGENCE — Cyan glacier 
+  @keyframes glow4{
+    0%,100%{box-shadow0 0 9px rgba(255,255,255,.06);border-colorrgba(255,255,255,.2);backgroundrgba(255,255,255,.06);opacity1;color#ffffff;}
+    46%{box-shadow0 0 42px rgba(103,232,249,.5), 0 0 21px rgba(34,211,238,.3);border-colorrgba(103,232,249,.72);backgroundrgba(103,232,249,.14);opacity1;color#67e8f9;}
+  }
+
+  .offer[data-idx=0]{animationofferIn .8s cubic-bezier(.22,1,.36,1) both, glow0 3.2s ease-in-out 0s infinite;}
+  .offer[data-idx=1]{animationofferIn .8s cubic-bezier(.22,1,.36,1) both, glow1 4.1s ease-in-out 0.6s infinite;}
+  .offer[data-idx=2]{animationofferIn .8s cubic-bezier(.22,1,.36,1) both, glow2 2.8s ease-in-out 1.3s infinite;}
+  .offer[data-idx=3]{animationofferIn .8s cubic-bezier(.22,1,.36,1) both, glow3 3.7s ease-in-out 0.2s infinite;}
+  .offer[data-idx=4]{animationofferIn .8s cubic-bezier(.22,1,.36,1) both, glow4 4.5s ease-in-out 1.8s infinite;}
+
+  .offer-num{
+    font-size10px;letter-spacing.2em;
+    colorinherit;margin-bottom3px;
+    text-shadow0 0 12px currentColor;
+  }
+  .offer-name{
+    font-size15px;font-weight700;letter-spacing.08em;
+    colorinherit;
+    text-shadow0 0 14px currentColor;
+  }
+
+   ── Orbit ring (decorative) ── 
+  .orbit-ring{
+    positionabsolute;
+    top50%;left50%;
+    transformtranslate(-50%,-50%);
+    border-radius50%;
+    border1px solid rgba(20,184,214,.06);
+    pointer-eventsnone;
+    animationringRotate 120s linear infinite;
+  }
+  @keyframes ringRotate{
+    0%{transformtranslate(-50%,-50%) rotate(0deg);}
+    100%{transformtranslate(-50%,-50%) rotate(360deg);}
+  }
+
+   ── Speed Controls ── 
+  .controls{
+    positionfixed;bottom24px;left50%;
+    transformtranslateX(-50%);z-index10;
+    displayflex;gap6px;opacity.45;transitionopacity .3s;
+  }
+  .controlshover{opacity1;}
+  .ctrl-btn{
+    font-family'Orbitron',monospace;font-size11px;letter-spacing.12em;
+    padding10px 22px;border1px solid rgba(255,255,255,.1);border-radius24px;
+    backgroundrgba(255,255,255,.03);colorvar(--muted);cursorpointer;
+    backdrop-filterblur(10px);transitionall .3s;
+  }
+  .ctrl-btnhover,.ctrl-btn.active{
+    backgroundrgba(20,184,214,.1);border-colorrgba(20,184,214,.3);
+    color#fff;text-shadow0 0 10px var(--cyanGlow);
+  }
+
+  .warp-hud{
+    positionfixed;top16px;right20px;z-index10;
+    font-family'Orbitron',monospace;font-size8px;letter-spacing.12em;
+    colorrgba(20,184,214,.6);text-alignright;
+  }
+  .legal{
+    positionfixed;bottom18px;left22px;z-index10;
+    font-family'Orbitron',sans-serif;
+    font-size9px;letter-spacing.08em;line-height1.6;
+    colorvar(--muted);
+    text-transformnone;
+    pointer-eventsauto;
+  }
+  .legal a{colorinherit;text-decorationnone;border-bottom1px solid rgba(234,242,255,.25);transitioncolor .3s, border-color .3s;}
+  .legal ahover{color#fff;border-bottom-colorrgba(255,255,255,.6);}
+  .warp-bar{
+    width80px;height2px;backgroundrgba(20,184,214,.1);
+    border-radius2px;margin-top4px;overflowhidden;
+  }
+  .warp-fill{
+    height100%;width5%;
+    backgroundlinear-gradient(90deg,var(--cyan),#4fc3f7);
+    border-radius2px;transitionwidth .6s ease;
+    box-shadow0 0 6px var(--cyanGlow);
+  }
+
+  @media(max-width600px){
+    .glass{widthmin(92vw,68vh);heightmin(92vw,68vh);}
+    .logoOrb{width100px;height100px;}
+    .logoOrb img{width72px;height72px;}
+    .name{font-size18px;letter-spacing.14em;}
+    .tagTitle{font-size7px;letter-spacing.18em;margin-bottom0;}
+    .offer{padding8px 14px;white-spacenormal;max-width130px;text-aligncenter;}
+    .offer-name{font-size11px;letter-spacing.03em;}
+    .offer-num{font-size8px;letter-spacing.12em;}
+    .controls{bottom16px;gap4px;}
+    .ctrl-btn{font-size9px;padding8px 16px;}
+  }
+
+   Very small phones 
+  @media(max-width380px){
+    .glass{widthmin(96vw,62vh);heightmin(96vw,62vh);}
+    .logoOrb{width80px;height80px;}
+    .logoOrb img{width58px;height58px;}
+    .name{font-size15px;}
+    .offer{padding6px 10px;max-width110px;}
+    .offer-name{font-size9px;}
+  }
+
+   Landscape mobile 
+  @media(max-height500px){
+    .glass{widthmin(60vh,80vw);heightmin(60vh,80vw);}
+    .logoOrb{width70px;height70px;}
+    .logoOrb img{width50px;height50px;}
+    .name{font-size14px;}
+    .tagTitle{font-size6px;}
+    .offer{padding6px 10px;}
+    .offer-name{font-size9px;}
+    .offer-num{font-size6px;}
+    .controls{bottom10px;}
+  }
+style
+head
+
+body
+canvas id=hyperspacecanvas
+div class=vignettediv
+
+div class=glass id=glassOrbit
+  !-- Decorative orbit rings --
+  div class=orbit-ring style=width70%;height70%;div
+  div class=orbit-ring style=width92%;height92%;animation-directionreverse;animation-duration180s;border-colorrgba(20,184,214,.03);div
+
+  !-- Center --
+  div class=hub
+    div class=logoOrb
+      img src=cyneris_logo.jpg alt=CYNERIS width=120 height=120 loading=eager decoding=async
+    div
+    p class=nameCYNERISp
+    p class=tagTitleYour Cyber IT Partnerp
+  div
+
+  !-- 5 Orbital Offers --
+  div class=offer id=o0 data-idx=0div class=offer-num01 — SOFTWAREdivdiv class=offer-nameIntegrated Softwaredivdiv
+  div class=offer id=o1 data-idx=1div class=offer-num02 — CLOUDdivdiv class=offer-nameCloud IaaS  PaaS  SaaSdivdiv
+  div class=offer id=o2 data-idx=2div class=offer-num03 — SECURITYdivdiv class=offer-nameCybersecuritydivdiv
+  div class=offer id=o3 data-idx=3div class=offer-num04 — LEGACYdivdiv class=offer-nameTechnical Debtdivdiv
+  div class=offer id=o4 data-idx=4div class=offer-num05 — INTELLIGENCEdivdiv class=offer-nameData Sciencedivdiv
+div
+
+div class=controls
+  button class=ctrl-btn active data-mode=cruiseCRUISEbutton
+  button class=ctrl-btn data-mode=jumpJUMPbutton
+  button class=ctrl-btn data-mode=hyperHYPERSPACEbutton
+div
+
+div class=warp-hud
+  span id=warpLabelWARP 1.0span
+  div class=warp-bardiv class=warp-fill id=warpFilldivdiv
+div
+
+div class=legal
+  SAS CYNERIS — SIREN 101 194 405 R.C.S. Toulonbr
+  Le Nobel — 83160 La Valette-du-Varbr
+  a href=mailtofirst.contact@cyneris.frfirst.contact@cyneris.fra
+div
+
+
+script
+   ==============================
+   ORBITAL OFFER POSITIONING
+   ==============================
+  function positionOffers() {
+    const glass = document.getElementById('glassOrbit');
+    const W = glass.offsetWidth;
+    const H = glass.offsetHeight;
+    const cx = W  2;
+    const cy = H  2;
+     Adaptive orbit radius — tighter on small screens
+    const isMobile = window.innerWidth = 600;
+    const factor = isMobile  0.38  0.40;
+    const rx = W  factor;
+    const ry = H  factor;
+
+     5 offers distributed evenly around circle, starting from top
+    const offsets = [-90, -18, 54, 126, 198];  degrees, spread around
+    const ids = ['o0','o1','o2','o3','o4'];
+
+    ids.forEach((id, i) = {
+      const el = document.getElementById(id);
+      const angle = offsets[i]  (Math.PI  180);
+      const x = cx + rx  Math.cos(angle);
+      const y = cy + ry  Math.sin(angle);
+      el.style.left = x + 'px';
+      el.style.top  = y + 'px';
+      el.style.animationDelay = (0.3 + i  0.15) + 's';
+    });
+  }
+  positionOffers();
+  window.addEventListener('resize', positionOffers);
+
+   ==============================
+   HYPERSPACE STARFIELD
+   ==============================
+  const canvas = document.getElementById(hyperspace);
+  const ctx = canvas.getContext(2d);
+  let cW, cH;
+
+  function resize() {
+    cW = canvas.width = window.innerWidth;
+    cH = canvas.height = window.innerHeight;
+    positionOffers();
+  }
+  window.addEventListener(resize, resize);
+  resize();
+
+  const MODES = {
+    cruise  { speed 2,  streak 0,   tunnel false },
+    jump    { speed 14, streak 0.6, tunnel false },
+    hyper   { speed 50, streak 1,   tunnel true  }
+  };
+
+  let currentMode = MODES.cruise;
+  let lerpSpeed = 2, lerpStreak = 0, lerpTunnel = 0;
+
+  const STAR_COUNT = 1600;
+  const DEPTH = 1500;
+  const stars = [];
+
+  function spawnStar(s) {
+    s = s  {};
+    s.x = (Math.random() - 0.5)  cW  3;
+    s.y = (Math.random() - 0.5)  cH  3;
+    s.z = Math.random()  DEPTH;
+    s.pz = s.z;
+    s.size = 0.4 + Math.random()  1.2;
+    return s;
+  }
+  for (let i = 0; i  STAR_COUNT; i++) stars.push(spawnStar({}));
+
+  const rings = [];
+  for (let i = 0; i  20; i++) rings.push({ z (i  20)  DEPTH, opacity 0 });
+
+  const warpLabel = document.getElementById(warpLabel);
+  const warpFill = document.getElementById(warpFill);
+
+  document.querySelectorAll(.ctrl-btn).forEach(btn = {
+    btn.addEventListener(click, () = {
+      document.querySelectorAll(.ctrl-btn).forEach(b = b.classList.remove(active));
+      btn.classList.add(active);
+      currentMode = MODES[btn.dataset.mode];
+    });
+  });
+
+  function frame() {
+    lerpSpeed += (currentMode.speed - lerpSpeed)  0.035;
+    lerpStreak += (currentMode.streak - lerpStreak)  0.04;
+    lerpTunnel += ((currentMode.tunnel  1  0) - lerpTunnel)  0.03;
+
+    const wf = (lerpSpeed  50  9 + 1).toFixed(1);
+    warpLabel.textContent = `WARP ${wf}`;
+    warpFill.style.width = `${(lerpSpeed  50)  100}%`;
+
+    ctx.fillStyle = rgba(2,8,16,.28);
+    ctx.fillRect(0, 0, cW, cH);
+
+    const ccx = cW  2, ccy = cH  2;
+
+    if (lerpTunnel  0.01) {
+      for (const ring of rings) {
+        ring.z -= lerpSpeed  0.6;
+        if (ring.z  1) ring.z += DEPTH;
+        const scale = DEPTH  ring.z;
+        const r = Math.max(cW, cH)  0.6  scale;
+        if (r  4000) continue;
+        const a = lerpTunnel  (1 - ring.z  DEPTH)  0.12;
+        ctx.beginPath();
+        ctx.arc(ccx, ccy, r, 0, Math.PI  2);
+        ctx.strokeStyle = `rgba(20,184,214,${a})`;
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+      }
+    }
+
+    for (const s of stars) {
+      s.pz = s.z;
+      s.z -= lerpSpeed;
+      if (s.z  1) spawnStar(s);
+
+      const sx = (s.x  s.z)  (cW  0.3) + ccx;
+      const sy = (s.y  s.z)  (cH  0.3) + ccy;
+      if (sx  -50  sx  cW + 50  sy  -50  sy  cH + 50) { spawnStar(s); continue; }
+
+      const depth = 1 - s.z  DEPTH;
+      const r = s.size  (1 + depth  2.5);
+      const hue = 195 + depth  15;
+      const light = 75 + depth  25;
+      const alpha = 0.3 + depth  0.7;
+
+      if (lerpStreak  0.05) {
+        const px = (s.x  s.pz)  (cW  0.3) + ccx;
+        const py = (s.y  s.pz)  (cH  0.3) + ccy;
+        const dx = sx - px, dy = sy - py;
+        const streakLen = Math.hypot(dx, dy)  lerpStreak;
+        const angle = Math.atan2(dy, dx);
+        const tailX = sx - Math.cos(angle)  streakLen;
+        const tailY = sy - Math.sin(angle)  streakLen;
+        const grad = ctx.createLinearGradient(tailX, tailY, sx, sy);
+        grad.addColorStop(0, `hsla(${hue},80%,${light}%,0)`);
+        grad.addColorStop(1, `hsla(${hue},80%,${light}%,${alpha})`);
+        ctx.beginPath(); ctx.moveTo(tailX, tailY); ctx.lineTo(sx, sy);
+        ctx.strokeStyle = grad; ctx.lineWidth = r  0.9; ctx.stroke();
+        ctx.beginPath(); ctx.arc(sx, sy, r  0.8, 0, Math.PI  2);
+        ctx.fillStyle = `hsla(${hue},60%,95%,${alpha  0.9})`; ctx.fill();
+      } else {
+        ctx.beginPath(); ctx.arc(sx, sy, r, 0, Math.PI  2);
+        ctx.fillStyle = `hsla(${hue},70%,${light}%,${alpha})`; ctx.fill();
+        if (depth  0.5) {
+          ctx.beginPath(); ctx.arc(sx, sy, r  2.5, 0, Math.PI  2);
+          ctx.fillStyle = `hsla(${hue},80%,${light}%,${(depth - 0.5)  0.15})`; ctx.fill();
+        }
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+script
+body
+html
